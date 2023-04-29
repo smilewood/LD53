@@ -65,6 +65,6 @@ public class TileController : MonoBehaviour
 
    private GameObject PickRandomTile()
    {
-      return TilePrefabs[Random.Range(0, TilePrefabs.Count - 1)];
+      return TilePrefabs[Random.Range(0, TilePrefabs.Count)];
    }
 }

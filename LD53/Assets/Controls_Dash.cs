@@ -4,36 +4,59 @@ using UnityEngine;
 
 public class Controls_Dash : MonoBehaviour
 {
-   public float DashDistance;
-   public float DashPullbackTime;
    public float SpeedBoost;
    public float BoostTime;
 
    public TileController map;
 
+   public GameObject HeadCollider;
+
+   private GroundedChecker grounded;
+   private Controls_Jump jump;
+
    private float boostTimer;
 
-   // Start is called before the first frame update
-   void Start()
+   bool boosting = false;
+   bool boosted = false;
+
+   private void Start()
    {
-      //startPos = this.transform.position.x;
+      grounded = this.GetComponent<GroundedChecker>();
+      jump = this.GetComponent<Controls_Jump>();
    }
 
-   bool boosting = false;
    // Update is called once per frame
    void Update()
    {
-      if (!boosting && Input.GetButtonDown("Boost"))
+      if (!boosting && !boosted && Input.GetButtonDown("Boost"))
       {
          map.speed += SpeedBoost;
          boostTimer = 0;
          boosting = true;
+         boosted = true;
+         //TODO: Play the animation
+         HeadCollider.SetActive(false);
+
+         jump.Dash(BoostTime);
       }
-      if(boosting && boostTimer > BoostTime)
+
+      if (boosting)
       {
-         map.speed -= SpeedBoost;
-         boosting = false;
+         if (boostTimer > BoostTime)
+         {
+            map.speed -= SpeedBoost;
+            HeadCollider.SetActive(true);
+            boosting = false;
+         }
+         else
+         {
+            boostTimer += Time.deltaTime;
+         }
       }
-      boostTimer += boosting ? Time.deltaTime : 0;
+
+      if (boosted && grounded.IsGrounded)
+      {
+         boosted = false;
+      }
    }
 }
