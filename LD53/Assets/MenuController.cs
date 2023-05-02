@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
-   public GameObject GameOver;
-   public TMP_Text ReasonText;
+   public Scorekeeper Scorekeeper;
+
+   //public TMP_Text ReasonText;
    // Start is called before the first frame update
    void Start()
    {
-      GameOver.SetActive(false);
    }
 
    // Update is called once per frame
@@ -20,11 +20,11 @@ public class MenuController : MonoBehaviour
    }
 
 
-   public void ShowGameOverMenu(string reason)
+   public void ShowGameOverMenu()
    {
-      GameOver.SetActive(true);
-      ReasonText.text = reason;
-      Time.timeScale = 0;
+      Scorekeeper.GameOver();
+      MenuFunctions.Instance.ShowMenu("Game Over");
+      MenuFunctions.PauseGame(false);
    }
 
 }

@@ -11,6 +11,8 @@ public class Controls_Jump : MonoBehaviour
 
    public bool DoubleJump;
 
+   public Animator PlayerAnimator;
+
    private Rigidbody2D rb;
    private float jumpTimer;
    private bool jumping;
@@ -39,6 +41,8 @@ public class Controls_Jump : MonoBehaviour
 
          jumping = true;
          jumpTimer = 0;
+         PlayerAnimator.SetTrigger("Jump");
+         SFXManager.Instance.PlayJump();
       }
       if (Input.GetButtonUp("Jump") || jumpTimer > JumpMaxTime)
       {
@@ -64,6 +68,7 @@ public class Controls_Jump : MonoBehaviour
       {
          rb.gravityScale = normalGravity;
       }
+      PlayerAnimator.SetFloat("Velocity", rb.velocity.y);
    }
 
    internal void Dash(float time)

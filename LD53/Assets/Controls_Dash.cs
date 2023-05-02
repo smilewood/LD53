@@ -10,6 +10,7 @@ public class Controls_Dash : MonoBehaviour
    public TileController map;
 
    public GameObject HeadCollider;
+   public Animator PlayerAnimator;
 
    private GroundedChecker grounded;
    private Controls_Jump jump;
@@ -38,6 +39,8 @@ public class Controls_Dash : MonoBehaviour
          HeadCollider.SetActive(false);
 
          jump.Dash(BoostTime);
+         SFXManager.Instance.PlayDash();
+         PlayerAnimator.SetBool("Sliding", true);
       }
 
       if (boosting)
@@ -47,6 +50,7 @@ public class Controls_Dash : MonoBehaviour
             map.speed -= SpeedBoost;
             HeadCollider.SetActive(true);
             boosting = false;
+            PlayerAnimator.SetBool("Sliding", false);
          }
          else
          {
